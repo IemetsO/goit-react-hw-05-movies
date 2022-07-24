@@ -1,0 +1,17 @@
+.container {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+  }
+
+.wraper{
+    width: 50px;   
+}
+
+.img{
+    width: 100%
+}
+
+.text {
+    font-size: 10px;
+}
