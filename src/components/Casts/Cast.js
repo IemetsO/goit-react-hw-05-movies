@@ -14,9 +14,8 @@ const Cast = () => {
       .then(movie => setMovie(movie.data.cast))
       .catch(err => {
         setError(err);
-        console.log(error);
       });
-  }, [params.movieId, error]);
+  }, [params.movieId]);
 
   if (error) {
     return (
@@ -35,7 +34,7 @@ const Cast = () => {
                 <img
                   className={s.img}
                   src={profile_path ? `https://image.tmdb.org/t/p/w200/${profile_path}` : 
-                  "https://via.placeholder.com/200"}
+                  "https://via.placeholder.com/50"}
                   alt="foto"
                 ></img>
               </div>
