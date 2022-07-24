@@ -1,23 +1,22 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { getMovieActors } from "../api/api";
-import {  Alert } from 'react-bootstrap';
-import s from "./Cast.module.css"
+import { getMovieActors } from '../api/api';
+import { Alert } from 'react-bootstrap';
+import s from './Cast.module.css';
 
-const Cast = ()=> {
-    const params = useParams();
-const [movie, setMovie] = useState([]);
-const [error, setError] = useState(false);
+const Cast = () => {
+  const params = useParams();
+  const [movie, setMovie] = useState([]);
+  const [error, setError] = useState(false);
 
-useEffect(() => {
+  useEffect(() => {
     getMovieActors(params.movieId)
       .then(movie => setMovie(movie.data.cast))
       .catch(err => {
         setError(err);
         console.log(error);
-      })
+      });
   }, [params.movieId, error]);
-
 
   if (error) {
     return (
@@ -28,23 +27,26 @@ useEffect(() => {
   }
   return (
     <div className={s.container}>
-        {movie.length > 0 &&
-       <ul>
-        {movie.map(({name, character, profile_path, id}) => 
-       ( <li key = {id} >
-         <div className={s.wraper}>
-           <img className={s.img} src ={ `https://image.tmdb.org/t/p/w200/${profile_path}`} alt = "foto"></img>
-           </div>
-           <p className={s.text}> name: {name}</p>
-           <p className={s.text}> character: {character}</p> </li>
-       ))}
-         
-       </ul>}
+      {movie.length > 0 && (
+        <ul>
+          {movie.map(({ name, character, profile_path, id }) => (
+            <li key={id}>
+              <div className={s.wraper}>
+                <img
+                  className={s.img}
+                  src={profile_path ? `https://image.tmdb.org/t/p/w200/${profile_path}` : 
+                  "https://via.placeholder.com/200"}
+                  alt="foto"
+                ></img>
+              </div>
+              <p className={s.text}> name: {name}</p>
+              <p className={s.text}> character: {character}</p>{' '}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
 
-
-
-
-export default Cast
+export default Cast;

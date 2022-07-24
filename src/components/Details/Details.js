@@ -50,27 +50,28 @@ const Details = () => {
       <div className={s.flex_wrapper}>
         <div className={s.wrapper}>
           <img
-            src={`https://image.tmdb.org/t/p/w500/${movieData.poster_path}`}
+            src={movieData.poster_path ? `https://image.tmdb.org/t/p/w500/${movieData.poster_path}` : "https://via.placeholder.com/100"}
             alt="poster"
             className={s.image}
-          ></img></div>
-          <div className={s.wrapper}>
-            <h2 className={s.tittle}>Title : </h2>
-            <p className={s.text}>{movieData.title}</p>
-            <h2 className={s.tittle}>User Score : </h2>
-            <p className={s.text}>{movieData.vote_average}</p>
-            <h2 className={s.tittle}>Overview: </h2>
-            <p className={s.text}>{movieData.overview}</p>
-            <h2 className={s.tittle}>Genres: </h2>
-            {movieData.genres.map(({ name }) => (
-              <p key={name} className={s.text}>
-                {name}
-              </p>
-            ))}
-          </div>
+          ></img>
         </div>
+        <div className={s.wrapper}>
+          <h2 className={s.tittle}>Title : </h2>
+          <p className={s.text}>{movieData.title}</p>
+          <h2 className={s.tittle}>User Score : </h2>
+          <p className={s.text}>{movieData.vote_average}</p>
+          <h2 className={s.tittle}>Overview: </h2>
+          <p className={s.text}>{movieData.overview}</p>
+          <h2 className={s.tittle}>Genres: </h2>
+          {movieData.genres.map(({ name }) => (
+            <p key={name} className={s.text}>
+              {name}
+            </p>
+          ))}
+        </div>
+      </div>
       <div>
-        <h2>Additional information</h2>
+        <h2 className={s.additional}>Additional information</h2>
         <Link to={`/movies/${params.movieId}/cast`}> Cast</Link>
         <Link to={`/movies/${params.movieId}/review`}> Review</Link>
       </div>
