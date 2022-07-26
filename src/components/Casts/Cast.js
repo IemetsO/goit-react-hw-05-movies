@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { getMovieActors } from '../api/api';
+import {getMovieActors} from "../../api/api";
 import { Alert } from 'react-bootstrap';
 import s from './Cast.module.css';
 

@@ -1,8 +1,5 @@
-const NotFound = ()=>
-{
-    return(<div>
-        Movie was not found
-    </div>)
-}
+const NotFound = () => {
+  return <div>Page not found</div>;
+};
 
-export default NotFound
+export default NotFound;

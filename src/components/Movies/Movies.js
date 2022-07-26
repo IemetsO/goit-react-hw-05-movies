@@ -1,58 +1,62 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { getMovie } from 'components/api/api';
-
-
+import { useSearchParams } from 'react-router-dom';
+import { getMovie } from '../../api/api';
+import SearhMovieList from "../SearchMovieList/SearchMovieList"
 
 export default function MoviesPage() {
-  const [searchMovie, setSearchMovie] = useState('');
-  const [searchItem, setSearchItem] = useState("")
   const [movies, setMovies] = useState([]);
- 
-
-  const onSubmit = e => {
-    e.preventDefault();
-    
-    setSearchMovie(searchItem);
-  };
-  
-  const onChange=(e)=>{
-    setSearchItem(e.target.value); 
-  }
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('query');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    if (searchMovie === '') {
+    if (query !== null) {
+      setSearchQuery(query);
+      getMovie(query).then(response => {
+        setMovies(response.data.results);
+      });
+    }
+  }, [query]);
+
+
+  const onChange = e => {
+    setSearchQuery(e.target.value);
+  };
+
+  
+  const onSubmit = e => {
+    e.preventDefault();
+    if (searchQuery.trim() === '') {
       return;
     }
-
-    getMovie(searchMovie).then(response => {
+    setSearchParams(`query=${searchQuery}`);
+    getMovie(query).then(response => {
       setMovies(response.data.results);
     });
-  }, [searchMovie]);
+  }
+  
+
+ 
+
+
+
+  
 
   return (
-
-      <div >
-        <form onSubmit={onSubmit}>
-          <input
-            type="search"
-            name="searchMovie"
-            placeholder="Search"
-            value={searchItem}
-            onChange={onChange}
-             
-          />
-         </form>
-        <div>
-          <ul>
-            {movies.map(({ id, title }) => (
-              <li key={id}>
-                <Link to={`/movies/${id}`}>{title}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <div>
+      <form onSubmit={onSubmit}>
+        <input
+          type="search"
+          name="searchMovie"
+          placeholder="Search"
+          id="input"
+          value={searchQuery}
+          onChange={onChange}
+        />
+      </form>
+      <div>
+       <SearhMovieList movies = {movies}></SearhMovieList>
       </div>
-    
+    </div>
   );
 }

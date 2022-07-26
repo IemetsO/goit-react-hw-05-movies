@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Suspense } from 'react';
 import { useParams } from 'react-router';
-import { getMovieInfo } from '../api/api';
+import {getMovieInfo} from "../../api/api";
 import { Spinner, Alert } from 'react-bootstrap';
-import { Link, useNavigate, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import s from './Details.module.css';
 
 const Details = () => {
@@ -10,7 +11,7 @@ const Details = () => {
   const [movieData, setMovieData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     setLoading(true);
@@ -25,7 +26,9 @@ const Details = () => {
       });
   }, [params.movieId, error]);
 
-  const goBack = () => navigate(-1);
+  const path = location.state?.from ?? "/";
+
+ 
 
   if (loading || !movieData) {
     return (
@@ -44,9 +47,9 @@ const Details = () => {
   }
   return (
     <div className={s.container}>
-      <button type="button" className={s.button} onClick={goBack}>
-        go back
-      </button>
+       <Link to={path} style={s.Button}>
+        <button> Go back</button>
+      </Link>
       <div className={s.flex_wrapper}>
         <div className={s.wrapper}>
           <img
@@ -72,10 +75,12 @@ const Details = () => {
       </div>
       <div>
         <h2 className={s.additional}>Additional information</h2>
-        <Link to={`/movies/${params.movieId}/cast`}> Cast</Link>
-        <Link to={`/movies/${params.movieId}/review`}> Review</Link>
+        <Link to="Cast" state={{ from: path }}> Cast</Link>
+        <Link to="Review" state={{ from: path }}> Review</Link>
       </div>
+      <Suspense>
       <Outlet />
+      </Suspense>
     </div>
   );
 };

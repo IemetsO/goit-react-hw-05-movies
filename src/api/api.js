@@ -26,3 +26,8 @@ export const getMovieActors = movieID =>
   api.get(
     `https://api.themoviedb.org/3/movie/${movieID}/credits?api_key=1949309aa629f4334f453cd9e8380085`
   );
+
+  
+
+
+ 
